@@ -1,0 +1,70 @@
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.count = 0
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word: str):
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+            node.count += 1
+
+    def find_shortest_unique_prefix(self, word: str) -> str:
+        node = self.root
+        prefix = []
+        for char in word:
+            prefix.append(char)
+            node = node.children[char]
+
+            if node.count == 1:
+                return "".join(prefix)
+        return word
+
+def shortest_unique_prefixes(words: list[str]) -> list[str]:
+    if not words:
+        return []
+    
+    trie = Trie()
+    for word in words:
+        trie.insert(word)
+    result = []
+    for word in words:
+        prefix = trie.find_shortest_unique_prefix(word)
+        result.append(prefix)
+        
+    return result
+if __name__ == "__main__":
+    words1 = ["dog", "dove", "duck"]
+    print(f"Input: {words1}")
+    print(f"Output: {shortest_unique_prefixes(words1)}") 
+    print("-" * 20)
+
+    words2 = ["cat", "dog", "mouse"]
+    print(f"Input: {words2}")
+    print(f"Output: {shortest_unique_prefixes(words2)}")
+    print("-" * 20)
+
+    words3 = ["apple", "app", "apricot"]
+    print(f"Input: {words3}")
+    print(f"Output: {shortest_unique_prefixes(words3)}")
+    print("-" * 20)
+
+    words4 = ["zebra", "dog", "duck", "dove"]
+    print(f"Input: {words4}")
+    print(f"Output: {shortest_unique_prefixes(words4)}") 
+    print("-" * 20)
+
+    words5 = ["bear", "bell", "bear"]
+    print(f"Input: {words5}")
+    print(f"Output: {shortest_unique_prefixes(words5)}") 
+    print("-" * 20)
+ 
+    words6 = []
+    print(f"Input: {words6}")
+    print(f"Output: {shortest_unique_prefixes(words6)}") 
+    print("-" * 20)
